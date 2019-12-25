@@ -1,0 +1,71 @@
+<!-- <h1>Learning Angular</h1>
+<courses></courses> -->
+
+<!-- building reuseable component -->
+<!-- <app-favorite [isFavorite]="post.isFavorite" (change)="onChangeEvent()"></app-favorite> -->
+<!-- <app-panel>
+  <ng-container class="heading"><h1>Heading</h1></ng-container>
+  <ng-container class="title">
+    hello world
+  </ng-container>
+  <ng-container class="text"><p>this is body text</p></ng-container>
+</app-panel> -->
+
+<!-- ng-if statement -->
+<!-- <div *ngIf="courses.length > 0; then coursesList; else noCourses"></div>
+<ng-template #coursesList>
+  courses List
+</ng-template>
+<ng-template #noCourses>
+  no courses
+</ng-template> -->
+<!-- end ng-if statement -->
+
+<!-- ngSwitchCase -->
+<!-- <ul class="nav nav-pills">
+  <li [class.active]="viewMode == 'map'">
+    <a class="btn btn-default" (click)="viewMode = 'map'">Map view</a>
+  </li>
+  <li [class.active]="viewMode == 'list'">
+    <a class="btn btn-default" (click)="viewMode = 'list'">List View</a>
+  </li>
+</ul>
+<div [ngSwitch]="viewMode">
+  <div *ngSwitchCase="'map'">The map view</div>
+  <div *ngSwitchCase="'list'">The List view</div>
+  <div *ngSwitchDefault>other value</div>
+</div> -->
+
+<!--end ngSwitchCase -->
+
+<!-- start ngFor -->
+<!-- <button class="btn btn-dark" (click)="loadCourses()">Load Courses</button>
+<button class="btn btn-primary" (click)="onAdd()">Add</button>
+<div>
+  <h2>List Of Courses</h2>
+  <ul>
+    <li
+      *ngFor="
+        let course of courses;
+        index as i;
+        even as isEven;
+        odd as isOdd;
+        first as isFirst;
+        last as isLast;
+        trackBy: OnloadCourses
+      "
+    >
+      {{ i + course.name }} <span *ngIf="isEven">(Even)</span>
+      <span *ngIf="isFirst">(First)</span>
+      <span *ngIf="isOdd">(Odd)</span>
+      <span *ngIf="isLast">(last)</span>
+      <button class="btn btn-danger" (click)="onRemove(course)">Remove</button>
+      <button class="btn btn-success" (click)="onChange(course)">Update</button>
+    </li>
+  </ul>
+</div> -->
+<!-- ngFor end -->
+<!-- <contact-form></contact-form> -->
+<!-- <signup-form> </signup-form> -->
+<!-- <course-form-array></course-form-array> -->
+<posts-component></posts-component>
