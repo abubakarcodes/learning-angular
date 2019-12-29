@@ -1,31 +1,37 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
-import { throwError } from "rxjs";
+import { throwError, Observable } from "rxjs";
 // import "rxjs/add/observable/throw";
 import { AppError } from "../common/app-error";
 import { NotFoundError } from "../common/not-found-error";
 import { BadError } from "../common/bad-error";
 
-@Injectable({
-  providedIn: "root"
-})
 export class DataService {
   constructor(private url: string, private http: HttpClient) {}
 
   getAll() {
     return this.http.get(this.url).pipe(
-      tap(() => {
-        console.log("post fetched");
+      // map(response => {
+      //   return response;
+      // }),
+      tap(response => {
+        return response;
       }),
       catchError(this.handleError)
     );
   }
 
   create(resource) {
+    // return throwError(new AppError()); for testing purpose
     return this.http.post(this.url, JSON.stringify(resource)).pipe(
-      tap(() => {
-        console.log("post created");
+      // map(response => {
+      //   // console.log(response);
+      //   return response;
+      // }),
+      tap(response => {
+        // console.log(response);
+        return response;
       }),
       catchError(this.handleError)
     );
@@ -35,15 +41,24 @@ export class DataService {
     return this.http
       .patch(this.url + "/" + id, JSON.stringify({ isRight: true }))
       .pipe(
-        tap(() => console.log("updated")),
+        // map(response => {
+        //   return response;
+        // }),
+        tap(response => {
+          return response;
+        }),
         catchError(this.handleError)
       );
   }
 
   delete(id) {
+    // return throwError(new AppError());
     return this.http.delete(this.url + "/" + id).pipe(
-      tap(() => {
-        console.log("deleted");
+      // map(response => {
+      //   return response;
+      // }),
+      tap(response => {
+        return response;
       }),
       catchError(this.handleError)
     );

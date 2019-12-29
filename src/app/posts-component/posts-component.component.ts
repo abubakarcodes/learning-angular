@@ -11,13 +11,13 @@ import { BadError } from "../common/bad-error";
   styleUrls: ["./posts-component.component.css"]
 })
 export class PostsComponentComponent implements OnInit {
-  posts: any[];
+  posts;
   constructor(private service: PostsService) {}
 
   ngOnInit() {
     this.service.getAll().subscribe(
-      response => {
-        this.posts = response;
+      posts => {
+        this.posts = posts;
       }
       // (error: AppError) => {
       //   if (error instanceof BadError) {
@@ -31,14 +31,17 @@ export class PostsComponentComponent implements OnInit {
   }
 
   createPost(input: HTMLInputElement) {
-    const post: any = { title: input.value };
+    let post: any = { title: input.value };
     input.value = "";
+    // used for optimistic approach
+    this.posts.splice(0, 0, post);
     this.service.create(post).subscribe(
-      response => {
-        post.id = response.id;
-        this.posts.splice(0, 0, post);
+      newPost => {
+        post = newPost;
+        // this.posts.splice(0, 0, post); pessimistic approach to create data  after sever
       },
       (error: AppError) => {
+        this.posts.splice(0, 1);
         if (error instanceof BadError) {
           // this.form.setErrors(error.orignalError);
           // alert(error);
@@ -49,13 +52,10 @@ export class PostsComponentComponent implements OnInit {
   }
 
   updatePost(post: HTMLInputElement) {
-    // there are two methods for update patch and put mostly used is put
-    // difference is put is used to completely update the object
-    // but the patch in used to update a single attribute like isRight, isTrue,boolean etc.
-
     this.service.update(post.id).subscribe(
-      response => {
-        console.log(response);
+      // tslint:disable-next-line:no-shadowed-variable
+      post => {
+        console.log(post);
       },
       (error: AppError) => {
         if (error instanceof NotFoundError) {
@@ -65,19 +65,19 @@ export class PostsComponentComponent implements OnInit {
         }
       }
     );
-    // this.http
-    //   .put(this.url + "/" + post.id, JSON.stringify({ isRight: true }))
-    //   .subscribe(response => {
-    //     console.log(response);
-    //   });
   }
   deletePost(post) {
+    const index = this.posts.indexOf(post);
+    this.posts.splice(index, 1);
     this.service.delete(post.id).subscribe(
-      response => {
-        const index = this.posts.indexOf(post);
-        this.posts.splice(index, 1);
-      },
+      // for premistic approach
+      // () => {
+      //   const index = this.posts.indexOf(post);
+      //   this.posts.splice(index, 1);
+      // }
+      null,
       (error: AppError) => {
+        this.posts.splice(index, 0, post);
         if (error instanceof NotFoundError) {
           alert("sorry item is already deleted");
         } else {
